@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -70,5 +71,14 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
             retry= true;
         }
     }
-
+    @Override
+    public boolean onTouchEvent(MotionEvent motionevent) {
+        int x = (int) motionevent.getX();
+        int y = (int) motionevent.getY();
+        if (motionevent.getAction() == MotionEvent.ACTION_DOWN) {
+            return true;
+        }
+        System.out.println("x:" + x + " y:" + y);
+        return false;
+    }
 }
