@@ -21,7 +21,7 @@ public class PostacChibi extends ObiektGry {
     private Bitmap[] mSkorkaDolDoGory;
 
     // Velocity of game character (pixel/millisecond)
-    public static final float PREDKOSC = 0.1f;
+    public float PREDKOSC = 0.1f;
 
     private int mPoruszajacyWektorX = 10;
     private int mPoruszajacyWektorY = 5;
@@ -70,7 +70,6 @@ public class PostacChibi extends ObiektGry {
         Bitmap[] bitmapy = this.getSkorkeRuchu();
         return bitmapy[this.uzytaKolumna];
     }
-
 
     public void aktualizuj()  {
         this.uzytaKolumna++;

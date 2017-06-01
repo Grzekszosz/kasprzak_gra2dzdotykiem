@@ -51,6 +51,13 @@ public abstract class ObiektGry {
         return this.mY;
     }
 
+    public void setmX(int mX) {
+        this.mX = mX;
+    }
+
+    public void setmY(int mY) {
+        this.mY = mY;
+    }
 
     public int getWysokosc() {
         return mWysokosc;

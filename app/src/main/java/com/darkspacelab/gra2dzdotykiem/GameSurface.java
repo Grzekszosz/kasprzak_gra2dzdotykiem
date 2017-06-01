@@ -13,7 +13,9 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     private GameThread gameThread;
 
-    private PostacChibi chibi1;
+    private PostacChibi chibi1,chibi2;
+    private Wybuch piwpaw;
+    private  boolean wybuchlo = false;
 
     public GameSurface(Context context)  {
         super(context);
@@ -27,8 +29,12 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update()  {
         this.chibi1.aktualizuj();
-    }
+        this.chibi2.aktualizuj();
+        if(wybuchlo){
+            this.piwpaw.update();
+        }
 
+    }
 
 
     @Override
@@ -36,14 +42,25 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
 
         this.chibi1.rysuj(canvas);
+        this.chibi2.rysuj(canvas);
+
+        if(wybuchlo){
+            this.piwpaw.draw(canvas);
+        }
+
     }
 
     // Implements method of SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Bitmap chibiBitmap1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.chibi1);
+        Bitmap chibiBitmap2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.chibi1);
+        Bitmap piwpawBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.bom);
         this.chibi1 = new PostacChibi(this,chibiBitmap1,100,50);
-
+        this.chibi1.PREDKOSC=0.4f;
+        this.chibi2 = new PostacChibi(this,chibiBitmap1,200,500);
+        this.chibi2.PREDKOSC=0.1f;
+        piwpaw = new Wybuch(this,piwpawBitmap,200,500);
         this.gameThread = new GameThread(this,holder);
         this.gameThread.setRunning(true);
         this.gameThread.start();
@@ -75,7 +92,21 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent motionevent) {
         int x = (int) motionevent.getX();
         int y = (int) motionevent.getY();
+        x=x-chibi1.getX();
+        y=y-chibi1.getY();
+        chibi1.setmPoruszajacyWektor(x,y);
+        x = (int) motionevent.getX();
+        y = (int) motionevent.getY();
+        x=x-chibi2.getX();
+        y=y-chibi2.getY();
+        chibi2.setmPoruszajacyWektor(x,y);
+
         if (motionevent.getAction() == MotionEvent.ACTION_DOWN) {
+            wybuchlo = true;
+            piwpaw.setFinish(false);
+            piwpaw.setmX((int)motionevent.getX());
+            piwpaw.setmY((int)motionevent.getY());
+
             return true;
         }
         System.out.println("x:" + x + " y:" + y);
